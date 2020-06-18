@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery List App</title>
+  </head>
+  <body>
+    <h1>Grocery List</h1>
+
+    <form method="post" action="{% url 'grocery_list_app:add' %}">
+      {% csrf_token %}
+      <label for="text_description">Description:</label>
+      <input type="text" id="text_description" name="text_description">
+      <input type="submit" value="Create Grocery List">
+    </form>
+
+      <h2>Incomplete</h2>
+      {% for item in incompleted_items %}
+        <p>
+        {{ item.text_description }}
+        <form action="{% url 'grocery_list_app:complete' item.id %}" method="post">
+          {% csrf_token %}
+          <input type="submit" value="complete">
+        </form>
+        <form action="{% url 'grocery_list_app:delete' item.id %}" method="post">
+          {% csrf_token %}
+          <input type="submit" value="delete">
+        </form>
+        </p>
+      {% endfor %}
+
+      <h2>Complete</h2>
+      {% for item in completed_items %}
+        <p>
+        {{ item.text_description }}
+        <form action="{% url 'grocery_list_app:complete' item.id %}" method="post">
+          {% csrf_token %}
+          <input type="submit" value="complete">
+        </form>
+        <form action="{% url 'grocery_list_app:delete' item.id %}" method="post">
+          {% csrf_token %}
+          <input type="submit" value="delete">
+        </form>
+        </p>
+      {% endfor %}
+  </body>
+</html>
